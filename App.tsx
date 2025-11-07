@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import ResultsPanel from './components/ResultsPanel';
 import ScoreCategory from './components/ScoreCategory';
 import Tooltip from './components/Tooltip';
@@ -12,6 +12,7 @@ import {
   GESTATIONAL_AGE_MAP,
 } from './constants';
 import type { BallardCriterion, Scores } from './types';
+import { analytics } from './utils/analytics';
 
 type Gender = 'male' | 'female';
 
@@ -21,10 +22,12 @@ const App: React.FC = () => {
 
   const handleSelectScore = useCallback((id: string, score: number) => {
     setScores((prevScores) => ({ ...prevScores, [id]: score }));
+    analytics.trackScoreSelection(id, score);
   }, []);
 
   const handleReset = () => {
     setScores({});
+    analytics.trackReset();
   };
   
   const physicalCriteria = useMemo<BallardCriterion[]>(() => {
@@ -108,9 +111,17 @@ const App: React.FC = () => {
     return Math.floor(interpolatedWeeks);
   }, [totalScore, isComplete]);
 
+  // Track calculation completion
+  useEffect(() => {
+    if (isComplete && totalScore !== null && gestationalAge !== null) {
+      analytics.trackCalculationComplete(totalScore, gestationalAge);
+    }
+  }, [isComplete, totalScore, gestationalAge]);
+
 
   const handleGenderChange = (newGender: Gender) => {
     setGender(newGender);
+    analytics.trackGenderChange(newGender);
     // Remove score for the old gender criterion if it exists
     const oldCriterionId = newGender === 'male' ? 'genitals_female' : 'genitals_male';
     if (scores[oldCriterionId] !== null) {

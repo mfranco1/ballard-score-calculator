@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { NEUROMUSCULAR_CRITERIA } from '../constants';
 import Tooltip from './Tooltip';
 import type { BallardCriterion, Scores } from '../types';
+import { analytics } from '../utils/analytics';
 
 interface ResultsPanelProps {
   neuromuscularScore: number | null;
@@ -50,6 +51,7 @@ Total = ${totalScore} = ${gestationalAge} weeks by pediatric aging`;
     navigator.clipboard.writeText(textToCopy).then(() => {
       setIsCopied(true);
       setTimeout(() => setIsCopied(false), 2500);
+      analytics.trackCopyResults();
     }).catch(err => {
       console.error('Failed to copy text: ', err);
     });

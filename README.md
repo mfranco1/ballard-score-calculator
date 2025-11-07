@@ -24,6 +24,27 @@ npm install
 npm run dev
 ```
 
+### Setting up Google Analytics (Optional)
+
+1. Create a Google Analytics 4 property and get your Measurement ID (format: `G-XXXXXXXXXX`)
+2. Create a `.env` file in the root directory:
+   ```bash
+   cp .env.example .env
+   ```
+3. Add your Google Analytics Measurement ID to the `.env` file:
+   ```
+   VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+   ```
+4. Restart your development server
+
+The app will automatically track:
+- Page views
+- Score selections
+- Gender changes
+- Calculation completions
+- Result copies
+- Reset actions
+
 ## Production Build
 
 ```bash
@@ -33,7 +54,15 @@ npm run preview
 
 ## Deploying to GitHub Pages
 
-- Push the project to a GitHub repository and ensure the default branch is `master`.
+- Push the project to a GitHub repository and ensure the default branch is `main`.
 - Open the repository in GitHub and enable Pages under **Settings → Pages**, selecting **GitHub Actions** as the source.
-- The included workflow will build on every push to `master` and publish the static `dist` output automatically.
+- The included workflow will build on every push to `main` and publish the static `dist` output automatically.
 - By default the workflow sets `VITE_APP_BASE_PATH` to `/${repository-name}/`; adjust by defining a different value in the workflow or repository/environment secrets if you are deploying to a custom domain or user/organization site.
+
+### Adding Google Analytics in Production
+
+To enable Google Analytics in your production deployment:
+
+1. Go to your repository's **Settings → Secrets and variables → Actions**
+2. Add a new repository secret named `VITE_GA_MEASUREMENT_ID` with your Google Analytics Measurement ID as the value
+3. Update the GitHub Actions workflow to use this secret (see the workflow file for details)
