@@ -35,6 +35,12 @@ jobs:
         run: |
           echo "VITE_APP_BASE_PATH=/${{ github.event.repository.name }}/" >> $GITHUB_ENV
 
+      - name: Configure Google Analytics
+        run: |
+          if [ -n "${{ secrets.VITE_GA_MEASUREMENT_ID }}" ]; then
+            echo "VITE_GA_MEASUREMENT_ID=${{ secrets.VITE_GA_MEASUREMENT_ID }}" >> $GITHUB_ENV
+          fi
+
       - name: Build site
         run: npm run build
 
