@@ -1,0 +1,5 @@
+{
+  "name": "Ballard Score Calculator",
+  "description": "A modern, intuitive web application to calculate the Ballard Score for assessing the gestational age of a newborn. Users can select neuromuscular and physical maturity criteria to get a total score and the corresponding estimated age in weeks.",
+  "requestFramePermissions": []
+}
