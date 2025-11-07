@@ -30,3 +30,10 @@ npm run dev
 npm run build
 npm run preview
 ```
+
+## Deploying to GitHub Pages
+
+- Push the project to a GitHub repository and ensure the default branch is `master`.
+- Open the repository in GitHub and enable Pages under **Settings → Pages**, selecting **GitHub Actions** as the source.
+- The included workflow will build on every push to `master` and publish the static `dist` output automatically.
+- By default the workflow sets `VITE_APP_BASE_PATH` to `/${repository-name}/`; adjust by defining a different value in the workflow or repository/environment secrets if you are deploying to a custom domain or user/organization site.
